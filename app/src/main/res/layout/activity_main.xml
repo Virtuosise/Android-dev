@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/gray">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:gravity="end"
+            android:textSize="50sp"
+            android:ellipsize="start"
+            android:text=""
+            android:singleLine="true" />
+
+
+        <TextView
+            android:id="@+id/output"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:gravity="end"
+            android:textSize="30sp"
+            android:ellipsize="start"
+            android:text=""
+            android:singleLine="true" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="101dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_gravity="right"
+            >
+
+            <TextView
+                android:id="@+id/delete"
+                style="@style/Operations"
+                android:layout_width="match_parent"
+                android:text="@string/delete"
+                android:textColor="@color/orange"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView android:text="@string/seven" android:id="@+id/b7" style="@style/Numbers"/>
+            <TextView android:text="@string/eight" android:id="@+id/b8" style="@style/Numbers"/>
+            <TextView android:text="@string/nine" android:id="@+id/b9" style="@style/Numbers"/>
+            <TextView android:text="@string/del" android:id="@+id/del" style="@style/Operations"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView android:text="@string/four" android:id="@+id/b4" style="@style/Numbers"/>
+            <TextView android:text="@string/five" android:id="@+id/b5" style="@style/Numbers"/>
+            <TextView android:text="@string/six" android:id="@+id/b6" style="@style/Numbers"/>
+            <TextView android:text="@string/mn" android:id="@+id/bmn" style="@style/Operations"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView android:text="@string/one" android:id="@+id/b1" style="@style/Numbers"/>
+            <TextView android:text="@string/two" android:id="@+id/b2" style="@style/Numbers"/>
+            <TextView android:text="@string/three" android:id="@+id/b3" style="@style/Numbers"/>
+            <TextView android:text="@string/minus" android:id="@+id/bm" style="@style/Operations"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            >
+            <TextView android:text="@string/com" android:id="@+id/com" style="@style/Numbers"/>
+            <TextView android:text="@string/zero" android:id="@+id/b0" style="@style/Numbers"/>
+            <TextView android:text="@string/rv" android:id="@+id/rv" style="@style/Operations"
+                android:background="@color/blue"
+                android:textColor="@color/white"/>
+            <TextView android:text="@string/plus" android:id="@+id/bp" style="@style/Operations"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
