@@ -56,13 +56,6 @@
             android:orientation="horizontal"
             android:layout_gravity="right"
             >
-
-            <TextView
-                android:id="@+id/delete"
-                style="@style/Operations"
-                android:layout_width="match_parent"
-                android:text="@string/delete"
-                android:textColor="@color/orange"/>
         </LinearLayout>
 
 
@@ -112,7 +105,11 @@
             android:layout_weight="1"
             android:orientation="horizontal"
             >
-            <TextView android:text="@string/com" android:id="@+id/com" style="@style/Numbers"/>
+            <TextView
+                android:id="@+id/delete"
+                style="@style/Operations"
+                android:text="@string/delete"
+                android:textColor="@color/orange"/>
             <TextView android:text="@string/zero" android:id="@+id/b0" style="@style/Numbers"/>
             <TextView android:text="@string/rv" android:id="@+id/rv" style="@style/Operations"
                 android:background="@color/blue"

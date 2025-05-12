@@ -28,15 +28,9 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.bm).setOnClickListener { setOperation("-") }
         findViewById<TextView>(R.id.bmn).setOnClickListener { setOperation("*") }
         findViewById<TextView>(R.id.del).setOnClickListener { setOperation("/") }
-
-
         findViewById<TextView>(R.id.delete).setOnClickListener { delete() }
-
-
         findViewById<TextView>(R.id.rv).setOnClickListener { calculate() }
 
-
-        findViewById<TextView>(R.id.com).setOnClickListener { Point() }
     }
 
     private fun setBNumbers() {
@@ -63,12 +57,7 @@ class MainActivity : AppCompatActivity() {
         updateDisplay()
     }
 
-    private fun Point() {
-        if (!currentN.contains(".")) {
-            currentN += if (currentN.isEmpty()) "0." else "."
-            updateDisplay()
-        }
-    }
+
 
     private fun setOperation(operation: String) {
         OneN = currentN.toDouble()

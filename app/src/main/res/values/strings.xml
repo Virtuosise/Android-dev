@@ -17,4 +17,5 @@
     <string name="del">/</string>
     <string name="com">.</string>
     <string name="rv">=</string>
+    <string name="no"> </string>
 </resources>
