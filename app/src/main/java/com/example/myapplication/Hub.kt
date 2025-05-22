@@ -18,6 +18,11 @@ class Hub : AppCompatActivity() {
 
         val Player = findViewById<Button>(R.id.Player)
         val Calculator = findViewById<Button>(R.id.Calculator)
+        val GPS = findViewById<Button>(R.id.GPS)
+
+        GPS.setOnClickListener {
+            startActivity(Intent(this, gps::class.java))
+        }
 
         Player.setOnClickListener {
             startActivity(Intent(this, AudioPlayer::class.java))

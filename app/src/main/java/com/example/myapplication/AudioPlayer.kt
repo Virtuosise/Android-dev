@@ -25,13 +25,13 @@ class AudioPlayer : AppCompatActivity() {
         R.raw.linkinpark_what_ive_done
     )
     private val songNames = listOf("Eminem - Mockingbird", "КиШ - Лесник", "Linkin Park - What ive done")
-    private var currentSongIndex = 0
+    private var index = 0
     private val handler = Handler(Looper.getMainLooper())
-    private var isUserSeeking = false
+    private var flag = false
 
-    private val updateSeekBar = object : Runnable {
+    private val upSeekBar = object : Runnable {
         override fun run() {
-            if (::mediaPlayer.isInitialized && mediaPlayer.isPlaying && !isUserSeeking) {
+            if (::mediaPlayer.isInitialized && mediaPlayer.isPlaying && !flag) {
                 seekBar.progress = mediaPlayer.currentPosition
             }
             handler.postDelayed(this, 1000)
@@ -41,10 +41,9 @@ class AudioPlayer : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_audio_player)
-
         initViews()
-        setupMediaPlayer()
-        setupListeners()
+        setupMP()
+        Click()
     }
 
     private fun initViews() {
@@ -55,27 +54,27 @@ class AudioPlayer : AppCompatActivity() {
         textview = findViewById(R.id.textview)
     }
 
-    private fun setupMediaPlayer() {
-        mediaPlayer = MediaPlayer.create(this, songs[currentSongIndex])
+    private fun setupMP() {
+        mediaPlayer = MediaPlayer.create(this, songs[index])
         seekBar.max = mediaPlayer.duration
-        textview.text = songNames[currentSongIndex]
+        textview.text = songNames[index]
 
         mediaPlayer.setOnCompletionListener {
-            playNextSong()
+            NextSong()
         }
     }
 
-    private fun setupListeners() {
+    private fun Click() {
         pause.setOnClickListener {
-            togglePlayPause()
+            PlayPause()
         }
 
         next.setOnClickListener {
-            playNextSong()
+            NextSong()
         }
 
         prev.setOnClickListener {
-            playPreviousSong()
+            PrevSong()
         }
 
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -86,50 +85,48 @@ class AudioPlayer : AppCompatActivity() {
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                isUserSeeking = true
+                flag = true
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                isUserSeeking = false
+                flag = false
             }
         })
     }
 
-    private fun togglePlayPause() {
+    private fun PlayPause() {
         if (mediaPlayer.isPlaying) {
             mediaPlayer.pause()
             pause.text = "Play"
-            handler.removeCallbacks(updateSeekBar)
+            handler.removeCallbacks(upSeekBar)
         } else {
             mediaPlayer.start()
             pause.text = "Pause"
-            handler.post(updateSeekBar)
+            handler.post(upSeekBar)
         }
     }
 
-    private fun playNextSong() {
-        currentSongIndex = (currentSongIndex + 1) % songs.size
+    private fun NextSong() {
+        index = (index + 1) % songs.size
         changeSong()
     }
 
-    private fun playPreviousSong() {
-        currentSongIndex = (currentSongIndex - 1 + songs.size) % songs.size
+    private fun PrevSong() {
+        index = (index - 1 + songs.size) % songs.size
         changeSong()
     }
 
     private fun changeSong() {
         mediaPlayer.reset()
-        mediaPlayer = MediaPlayer.create(this, songs[currentSongIndex])
-        mediaPlayer.start()
+        mediaPlayer = MediaPlayer.create(this, songs[index])
         seekBar.max = mediaPlayer.duration
-        textview.text = songNames[currentSongIndex]
-        pause.text = "Pause"
-        handler.post(updateSeekBar)
+        textview.text = songNames[index]
+        handler.post(upSeekBar)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer.release()
-        handler.removeCallbacks(updateSeekBar)
+        handler.removeCallbacks(upSeekBar)
     }
 }
