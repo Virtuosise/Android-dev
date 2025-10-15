@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myapplication.R
 
 class AudioPlayer : AppCompatActivity() {
 
@@ -24,12 +23,12 @@ class AudioPlayer : AppCompatActivity() {
         R.raw.kish_lesnik,
         R.raw.linkinpark_what_ive_done
     )
-    private val songNames = listOf("Eminem - Mockingbird", "КиШ - Лесник", "Linkin Park - What ive done")
+    private val songname = listOf("Eminem - Mockingbird", "КиШ - Лесник", "Linkin Park - What ive done")
     private var index = 0
     private val handler = Handler(Looper.getMainLooper())
     private var flag = false
 
-    private val upSeekBar = object : Runnable {
+    private val upSB = object : Runnable {
         override fun run() {
             if (::mediaPlayer.isInitialized && mediaPlayer.isPlaying && !flag) {
                 seekBar.progress = mediaPlayer.currentPosition
@@ -41,23 +40,25 @@ class AudioPlayer : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_audio_player)
-        initViews()
-        setupMP()
-        Click()
-    }
 
-    private fun initViews() {
         seekBar = findViewById(R.id.seekBar)
         pause = findViewById(R.id.pause)
         next = findViewById(R.id.next)
         prev = findViewById(R.id.prev)
         textview = findViewById(R.id.textview)
+
+        setupMP()
+        Click()
     }
+
+
+
+
 
     private fun setupMP() {
         mediaPlayer = MediaPlayer.create(this, songs[index])
         seekBar.max = mediaPlayer.duration
-        textview.text = songNames[index]
+        textview.text = songname[index]
 
         mediaPlayer.setOnCompletionListener {
             NextSong()
@@ -79,7 +80,7 @@ class AudioPlayer : AppCompatActivity() {
 
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (fromUser && ::mediaPlayer.isInitialized) {
+                if (fromUser) {
                     mediaPlayer.seekTo(progress)
                 }
             }
@@ -98,11 +99,11 @@ class AudioPlayer : AppCompatActivity() {
         if (mediaPlayer.isPlaying) {
             mediaPlayer.pause()
             pause.text = "Play"
-            handler.removeCallbacks(upSeekBar)
+            handler.removeCallbacks(upSB)
         } else {
             mediaPlayer.start()
             pause.text = "Pause"
-            handler.post(upSeekBar)
+            handler.post(upSB)
         }
     }
 
@@ -120,13 +121,13 @@ class AudioPlayer : AppCompatActivity() {
         mediaPlayer.reset()
         mediaPlayer = MediaPlayer.create(this, songs[index])
         seekBar.max = mediaPlayer.duration
-        textview.text = songNames[index]
-        handler.post(upSeekBar)
+        textview.text = songname[index]
+        handler.post(upSB)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer.release()
-        handler.removeCallbacks(upSeekBar)
+        handler.removeCallbacks(upSB)
     }
 }

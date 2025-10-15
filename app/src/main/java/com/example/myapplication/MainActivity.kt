@@ -5,101 +5,71 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var Input: TextView
-    private lateinit var Output: TextView
-    private var currentN = ""
-    private var OneN = 0.0
-    private var currentOp = ""
-    private var NewOperation = true
+    private lateinit var input: TextView
+    private var expr = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        input = findViewById(R.id.input)
 
-        Input = findViewById(R.id.input)
-        Output = findViewById(R.id.output)
+        findViewById<TextView>(R.id.b0).setOnClickListener { add("0") }
+        findViewById<TextView>(R.id.b1).setOnClickListener { add("1") }
+        findViewById<TextView>(R.id.b2).setOnClickListener { add("2") }
+        findViewById<TextView>(R.id.b3).setOnClickListener { add("3") }
+        findViewById<TextView>(R.id.b4).setOnClickListener { add("4") }
+        findViewById<TextView>(R.id.b5).setOnClickListener { add("5") }
+        findViewById<TextView>(R.id.b6).setOnClickListener { add("6") }
+        findViewById<TextView>(R.id.b7).setOnClickListener { add("7") }
+        findViewById<TextView>(R.id.b8).setOnClickListener { add("8") }
+        findViewById<TextView>(R.id.b9).setOnClickListener { add("9") }
 
+        findViewById<TextView>(R.id.bp).setOnClickListener { add("+") }
+        findViewById<TextView>(R.id.bm).setOnClickListener { add("-") }
+        findViewById<TextView>(R.id.bmn).setOnClickListener { add("*") }
+        findViewById<TextView>(R.id.del).setOnClickListener { add("/") }
 
-        setBNumbers()
-
-
-        findViewById<TextView>(R.id.bp).setOnClickListener { setOperation("+") }
-        findViewById<TextView>(R.id.bm).setOnClickListener { setOperation("-") }
-        findViewById<TextView>(R.id.bmn).setOnClickListener { setOperation("*") }
-        findViewById<TextView>(R.id.del).setOnClickListener { setOperation("/") }
-        findViewById<TextView>(R.id.delete).setOnClickListener { delete() }
-        findViewById<TextView>(R.id.rv).setOnClickListener { calculate() }
-
+        findViewById<TextView>(R.id.rv).setOnClickListener { calc() }
+        findViewById<TextView>(R.id.delete).setOnClickListener { clear() }
     }
 
-    private fun setBNumbers() {
-        val Bnumbers = listOf(
-            R.id.b0, R.id.b1, R.id.b2,
-            R.id.b3, R.id.b4, R.id.b5,
-            R.id.b6, R.id.b7, R.id.b8,
-            R.id.b9
-        )
+    private fun add(s: String) {
+        expr += s
+        input.text = expr
+    }
 
-        Bnumbers.forEach { buttonId ->
-            findViewById<TextView>(buttonId).setOnClickListener {
-                appendN((it as TextView).text.toString())
+    private fun calc() {
+        val res = calcex(expr)
+        expr = res.toString()
+        input.text = expr
+    }
+
+    private fun clear() {
+        expr = ""
+        input.text = ""
+    }
+
+    private fun calcex(s: String): Int {
+        var n1 = 0
+        var n2 = 0
+        var op = " "
+
+        for (i in s.indices) {
+            if (s[i] in "+-*/"){
+                op = s[i].toString()
+                n1 = s.substring(0, i).toInt()
+                n2 = s.substring(i+1).toInt()
+                break
             }
         }
-    }
 
-    private fun appendN(number: String) {
-        if (NewOperation) {
-            currentN = ""
-            NewOperation = false
-        }
-        currentN += number
-        updateDisplay()
-    }
-
-
-
-    private fun setOperation(operation: String) {
-        OneN = currentN.toDouble()
-        currentOp = operation
-        currentN = ""
-        updateDisplay()
-    }
-
-    private fun calculate() {
-        if (currentOp.isEmpty() || currentN.isEmpty()) return
-
-        val TwoN = currentN.toDouble()
-        val result = when (currentOp) {
-            "+" -> OneN + TwoN
-            "-" -> OneN - TwoN
-            "*" -> OneN * TwoN
-            "/" -> if (TwoN != 0.0) OneN / TwoN else Double.NaN
-            else -> Double.NaN
-        }
-
-        currentN = when {
-            result.isNaN() -> "Error"
-            result == result.toInt().toDouble() -> result.toInt().toString()
-            else -> result.toString()
-        }
-
-        currentOp = ""
-        NewOperation = true
-        updateDisplay()
-    }
-
-    private fun delete() {
-        currentN = ""
-        OneN = 0.0
-        currentOp = ""
-        NewOperation = true
-        Input.text = ""
-        Output.text = ""
-    }
-
-    private fun updateDisplay() {
-        Input.text = currentN.ifEmpty { "0" }
-        Output.text = currentN
+            return when (op) {
+                "+" -> n1 + n2
+                "-" -> n1 - n2
+                "*" -> n1 * n2
+                "/" -> n1 / n2
+                else -> 0
+            }
     }
 }
